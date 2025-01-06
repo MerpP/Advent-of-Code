@@ -1,0 +1,44 @@
+def is_line_safe(list):
+    length = len(list)
+    x = 0
+    y = 1
+    incr = 0 
+    decr = 0 
+    levels = 0
+
+    while y <= length - 1:
+        if length != y:
+            subtraction = list[x] - list[y]
+            if subtraction < 0:
+                incr+=1
+            elif subtraction > 0:
+                decr+=1
+            if subtraction < 0:
+                subtraction = subtraction * -1
+            if (incr > 0) ^ (decr > 0) and (subtraction >= 1 and subtraction <= 3): #Checks if the diff is between 1 and 3
+                levels+=1                 
+            x+=1
+            y+=1
+    if levels == length - 1:
+        print("Safe report")
+        return True
+    else:
+        print("Unsafe report")
+        return False
+def read_input() -> list[list[int]]:#
+    store_list = []
+    f = open('numbers.txt', 'r')
+    for line in f.readlines():
+        new_list = []
+        line_as_list_of_strings = line.split(' ')
+        for str in line_as_list_of_strings:
+            new_list.append(int(str))
+        store_list.append(new_list)
+    return store_list
+
+input = read_input()
+running_total = 0
+for line in input:
+    if is_line_safe(line):
+        running_total+=1
+    print("Total safe reports:",running_total)
